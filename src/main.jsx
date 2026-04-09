@@ -9,31 +9,32 @@ import ListedBooks from './Components/ListedBooks';
 import ReadBooks from './Components/ReadBooks';
 import WishlistBooks from './Components/WishlistBooks';
 import PagesToRead from './Components/PagesToRead';
+import BookDetails from './Components/BookDetails';
 
-const router = createBrowserRouter ([
+const router = createBrowserRouter([
   {
-    path:"/",
-    element:<MainLayout></MainLayout>, // এখানে মেইন লেআউট থাকবে
+    path: "/",
+    element: <MainLayout></MainLayout>, // এখানে মেইন লেআউট থাকবে
     children: [
       {
         path: "/",
         element: <Home />,
       },
       {
-        path:"/listed-books",
-        element:<ListedBooks></ListedBooks>,
-        children:[
+        path: "/listed-books",
+        element: <ListedBooks></ListedBooks>,
+        children: [
           {
             index: true, // ডিফল্টভাবে Read Books দেখাবে
             element: <ReadBooks></ReadBooks>,
           },
           {
-            path:"read",
-            element:<ReadBooks></ReadBooks>,
+            path: "read",
+            element: <ReadBooks></ReadBooks>,
           },
           {
-            path:"wishlist",
-            element:<WishlistBooks></WishlistBooks>
+            path: "wishlist",
+            element: <WishlistBooks></WishlistBooks>
           },
         ]
       },
@@ -41,16 +42,21 @@ const router = createBrowserRouter ([
         path: "/pages-to-read",
         element: <PagesToRead />,
       },
+      {
+        path: "book/:bookId",
+        element: <BookDetails></BookDetails>,
+        loader: () => fetch('/booksData.json') // সব ডেটা লোড করে আইডি দিয়ে ফিল্টার করার জন্য
+      },
     ]
   }
- 
+
 
 ]
-   
+
 )
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router = {router}></RouterProvider>
+    <RouterProvider router={router}></RouterProvider>
   </StrictMode>,
 )
